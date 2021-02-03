@@ -4,7 +4,7 @@ class Restaurant
     @opening_time = opening_time
     @name = name
     @dishes = []
-    # @new_closing_time = nil
+    @new_closing_time = 0
   end
 
   def closing_time(time)
@@ -34,23 +34,18 @@ class Restaurant
 
   def announce_closing_time(time)
     am_pm_tracker = @opening_time.to_i + time
-    new_closing_time = @opening_time.to_i + time
-    if new_closing_time > 24
-      new_closing_time %= 24
-    elsif new_closing_time > 12
-      new_closing_time -= 12
-    else
-      new_closing_time
-    end
+    @new_closing_time = @opening_time.to_i + time
+    closing_time_to_12hr_format
+    # announcement_output
     if am_pm_tracker < 12
-      "#{@name} will be closing at #{new_closing_time.to_s + ":00AM"}"
+      "#{@name} will be closing at #{@new_closing_time.to_s + ":00AM"}"
     elsif am_pm_tracker >= 12
-      "#{@name} will be closing at #{new_closing_time.to_s + ":00PM"}"
+      "#{@name} will be closing at #{@new_closing_time.to_s + ":00PM"}"
     end
-    # closing_time_to_12hr_format
+
   end
 
-  # def closing_time_to_12hr_format
+  # def announcement_output
   #   if @new_closing_time < 12
   #     # require "pry"; binding.pry
   #     "#{@name} will be closing at #{@new_closing_time.to_s + ":00AM"}"
@@ -58,4 +53,14 @@ class Restaurant
   #     "#{@name} will be closing at #{@new_closing_time.to_s + ":00PM"}"
   #   end
   # end
+
+    def closing_time_to_12hr_format
+      if @new_closing_time > 24
+        @new_closing_time %= 24
+      elsif @new_closing_time > 12
+        @new_closing_time -= 12
+      else
+        @new_closing_time
+      end
+    end
 end
